@@ -72,7 +72,7 @@ class InstallDiscordLoggerCommand extends Command
             'message' => env('DISCORD_MESSAGE', null),
             'context' => env('DISCORD_INCLUDE_CONTEXT', false),
             'suffix' => env('DISCORD_LOG_SUFFIX', config('app.name')),
-            'environment' => ['production', 'staging'],
+            'environment' => ['production', 'local'],
         ],";
 
       $pattern = "/(\s+)'emergency' => \[/";
