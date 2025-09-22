@@ -19,6 +19,7 @@ class DiscordHandler extends AbstractProcessingHandler
     private $context;
     private $maxFieldLength;
     private $maxDescriptionLength;
+    private $timezone;
 
     /**
      * Discord Handler constructor.
@@ -33,6 +34,7 @@ class DiscordHandler extends AbstractProcessingHandler
         $this->context = $config['context'] ?? false;
         $this->maxFieldLength = $config['max_field_length'] ?? 1024;
         $this->maxDescriptionLength = $config['max_description_length'] ?? 4000;
+        $this->timezone = $config['timezone'] ?? config('app.timezone', 'Asia/Jakarta');
 
         parent::__construct($config['level'] ?? 'debug', $this->bubble);
     }
@@ -354,7 +356,7 @@ class DiscordHandler extends AbstractProcessingHandler
             'title' => $this->buildTitle($logInfo),
             'description' => $this->buildDescription($record),
             'color' => $logInfo['color'],
-            'timestamp' => $record->datetime->format('Y-m-d\TH:i:s.v\Z'),
+            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP')
             'fields' => $fields,
             'footer' => [
                 'text' => $this->suffix . ' • Laravel Discord Logger',
@@ -426,7 +428,7 @@ class DiscordHandler extends AbstractProcessingHandler
             'title' => '📋 Full Context & Extra Data',
             'description' => "```json\n" . Str::limit($contextJson, $this->maxDescriptionLength - 15) . "\n```",
             'color' => 0x95A5A6, // Gray
-            'timestamp' => $record->datetime->format('Y-m-d\TH:i:s.v\Z')
+            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP')
         ];
     }
 
