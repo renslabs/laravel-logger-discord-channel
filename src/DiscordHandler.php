@@ -356,7 +356,7 @@ class DiscordHandler extends AbstractProcessingHandler
             'title' => $this->buildTitle($logInfo),
             'description' => $this->buildDescription($record),
             'color' => $logInfo['color'],
-            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP')
+            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP'),
             'fields' => $fields,
             'footer' => [
                 'text' => $this->suffix . ' • Laravel Discord Logger',
