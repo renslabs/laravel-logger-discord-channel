@@ -3,11 +3,10 @@
 namespace renslabs\LoggerDiscordChannel;
 
 use GuzzleHttp\RequestOptions;
-use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\LogRecord;
 use Psr\Log\LogLevel;
-use Carbon\Carbon;
+use DateTimeZone;
 use Illuminate\Support\Str;
 
 class DiscordHandler extends AbstractProcessingHandler
@@ -356,7 +355,7 @@ class DiscordHandler extends AbstractProcessingHandler
             'title' => $this->buildTitle($logInfo),
             'description' => $this->buildDescription($record),
             'color' => $logInfo['color'],
-            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP')
+            'timestamp' => $record->datetime->setTimezone(new DateTimeZone($this->timezone))->format('Y-m-d\TH:i:s.vP'),
             'fields' => $fields,
             'footer' => [
                 'text' => $this->suffix . ' • Laravel Discord Logger',
